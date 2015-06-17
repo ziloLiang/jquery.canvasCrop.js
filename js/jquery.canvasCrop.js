@@ -27,7 +27,7 @@
     if("ontouchend" in document){
         vmousedown = "touchstart";
         vmousemove = "touchmove";
-        vmouseleave = "touchend";
+        vmouseup = "touchend";
     }
     /**
      * CanvasCrop canvas剪切图片插件
