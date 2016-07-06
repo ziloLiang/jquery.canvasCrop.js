@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale= 1.0" />
+<title>jQuery.CanvasCrop.js DEMO演示</title>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/canvasCrop.css" />
+<style>
+    
+    .banner{
+        margin-top: 20px;
+        
+    }
+    .banner span{
+        float: left;
+        display: inline-block;
+        padding: 5px 20px;
+        background-color: #f40;
+        color: #fff;
+        cursor: pointer;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+    .clearfix {
+        *zoom: 1;
+    }
+    .clearfix:before{
+        content: " ";
+        display: table;
+    }
+    .clearfix:after{
+        content: " ";
+        display: table;
+        clear: both;
+    }
+    .cropPoint{
+        position: absolute;
+        height: 8px;
+        width: 8px;
+        background-color: rgba(255,255,255,0.7);
+        cursor: pointer;
+    }
+    .upload-wapper{
+        position: relative;
+        float: left;
+        height: 26px;
+        line-height: 26px;
+        width: 132px;
+        background-color: #f40;
+        color: #fff;
+        text-align: center;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    #upload-file{
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        width: 132px;
+        height: 26px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
+<script type="text/javascript" src="js/jquery.canvasCrop.js" ></script>
+<div class="container">
+  <div class="imageBox" >
+    <!--<div id="img" ></div>-->
+    <!--<img class="cropImg" id="img" style="display: none;" src="images/avatar.jpg" />-->
+    <div class="mask"></div>
+    <div class="thumbBox"></div>
+    <div class="spinner" style="display: none">Loading...</div>
+  </div>
+  <div class="banner clearfix">
+    <span id="rotateLeft" >左转</span>
+    <span id="rotateRight" >右转</span>
+    <span id="changMin" >缩小</span>
+    <span id="changLarge" >放大</span>
+    <span id="crop" >剪切</span>
+    <span id="alertInfo" >alert</span>
+    <div class="upload-wapper">
+                上传图片
+        <input type="file" id="upload-file" value="上传" />
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        var rot = 0,ratio = 1;
+        var CanvasCrop = $.CanvasCrop({
+            cropBox : ".imageBox",
+            imgSrc : "images/avatar.jpg",
+            limitOver : 2
+        });
+        
+        
+        $('#upload-file').on('change', function(){
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                CanvasCrop = $.CanvasCrop({
+                    cropBox : ".imageBox",
+                    imgSrc : e.target.result,
+                    limitOver : 2
+                });
+                rot =0 ;
+                ratio = 1;
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+        });
+        
+        $("#rotateLeft").on("click",function(){
+            rot -= 90;
+            rot = rot<0?270:rot;
+            CanvasCrop.rotate(rot);
+        });
+        $("#rotateRight").on("click",function(){
+            rot += 90;
+            rot = rot>360?90:rot;
+            CanvasCrop.rotate(rot);
+        });
+        $("#changMin").on("click",function(){
+            ratio =ratio*0.9;
+            CanvasCrop.scale(ratio);
+        });
+        $("#changLarge").on("click",function(){
+            ratio =ratio*1.1;
+            CanvasCrop.scale(ratio);
+        });
+        $("#alertInfo").on("click",function(){
+//          alert("角度:"+rot+"\n横坐标:"+argument.x+"\n纵坐标:"+argument.y);
+            alert(CanvasCrop.getDataURL("jpeg"));
+            var canvas = document.getElementById("visbleCanvas");
+            var context = canvas.getContext("2d");
+            context.clearRect(0,0,canvas.width,canvas.height);
+        });
+        
+        $("#crop").on("click",function(){
+            
+            var src = CanvasCrop.getDataURL("jpeg");
+            //$("body").append("<div style='word-break: break-all;'>"+src+"</div>");  
+            $("body").append("<img src='"+src+"' />");
+        });
+        
+        console.log("ontouchend" in document);
+    })
+</script>
+
+</body>
+</html>
