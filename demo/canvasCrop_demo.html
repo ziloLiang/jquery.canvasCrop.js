@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale= 1.0" />
 <title>jQuery.CanvasCrop.js DEMO演示</title>
 
-<link rel="stylesheet" href="css/style.css" type="text/css" />
-<link rel="stylesheet" href="css/canvasCrop.css" />
+<link rel="stylesheet" href="./css/style.css" type="text/css" />
+<link rel="stylesheet" href="./css/canvasCrop.css" />
 <style>
     
     .banner{
@@ -68,7 +68,7 @@
 </head>
 <body>
 
-<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.canvasCrop.js" ></script>
 <div class="container">
   <div class="imageBox" >
@@ -79,14 +79,14 @@
     <div class="spinner" style="display: none">Loading...</div>
   </div>
   <div class="banner clearfix">
-    <span id="rotateLeft" >左转</span>
-    <span id="rotateRight" >右转</span>
-    <span id="changMin" >缩小</span>
-    <span id="changLarge" >放大</span>
-    <span id="crop" >剪切</span>
-    <span id="alertInfo" >alert</span>
+    <span id="rotateLeft" >左转(Turn left)</span>
+    <span id="rotateRight" >右转(Turn right)</span>
+    <span id="changMin" >缩小(narrow)</span>
+    <span id="changLarge" >放大(enlarge)</span>
+    <span id="crop" >剪切(clip)</span>
+    <span id="alertInfo" >清空(clear)</span>
     <div class="upload-wapper">
-                上传图片
+                上传图片(upload image)
         <input type="file" id="upload-file" value="上传" />
     </div>
   </div>
@@ -97,7 +97,7 @@
         var rot = 0,ratio = 1;
         var CanvasCrop = $.CanvasCrop({
             cropBox : ".imageBox",
-            imgSrc : "images/avatar.jpg",
+            imgSrc : "./images/avatar.jpg",
             limitOver : 2
         });
         
@@ -137,7 +137,6 @@
         });
         $("#alertInfo").on("click",function(){
 //          alert("角度:"+rot+"\n横坐标:"+argument.x+"\n纵坐标:"+argument.y);
-            alert(CanvasCrop.getDataURL("jpeg"));
             var canvas = document.getElementById("visbleCanvas");
             var context = canvas.getContext("2d");
             context.clearRect(0,0,canvas.width,canvas.height);
